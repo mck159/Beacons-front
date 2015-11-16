@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Description</td>
+            <td>URL</td>
+            <td>Image URL</td>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="content in contents">
+                <td>
+                    <input class="form-control" type="text" ng-model="content.name" ng-readonly="!content.editable">
+                </td>
+                <td>
+                    <input class="form-control" type="text" ng-model="content.description" ng-readonly="!content.editable">
+                </td>
+                <td>
+                    <input class="form-control" type="text" ng-model="content.url" ng-readonly="!content.editable">
+                </td>
+                <td>
+                    <input class="form-control" type="text" ng-model="content.img_url" ng-readonly="!content.editable">
+                </td>
+                <td>
+                    <button class="btn btn-warning" ng-show="!content.new" ng-disabled="content.editable" ng-click="content.editable=!content.editable">edit</button>
+                    <button class="btn btn-primary" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable; saveContent(content)">submit</button>
+                    <button class="btn btn-warning" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable">cancel</button>
+                    <button class="btn btn-danger"  ng-show="!content.editable && !content.new" ng-click="deleteContent(content)">delete</button>
+                    <button class="btn btn-danger"  ng-show="content.new" ng-click="newContent(content)">save</button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" ng-click="addContent()">Add content</button>
+
+</body>
+</html>
