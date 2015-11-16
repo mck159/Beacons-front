@@ -1,9 +1,17 @@
-beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService) {
+beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, Page) {
+    Page.setTitle("Beacons");
     var BeaconResource = $resource("http://localhost:3000/" + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
-    var BeaconContentResource = $resource("http://localhost:3000/" + 'beacon/:short_id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var RulesResource = $resource("http://localhost:3000/" + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var beacons = BeaconResource.query(function() {
         $scope.beacons = beacons;
     });
+    var ContentsResource = $resource("http://localhost:3000/" + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var contents = ContentsResource.query(function() {
+        $scope.contents = contents;
+    });
+
+
+
     $scope.deleteBeacon = function(beacon) {
         beacon.$delete({id: beacon.beacon_id});
         var beacons = BeaconResource.query(function() {
@@ -32,10 +40,39 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         beacon.$save(beacon);
     }
 
-    console.log()
-
     $scope.setModal = function(beacon) {
-        console.log("set modal");
-        $scope.beaconContent = beacon;
+        var rules = RulesResource.query(function() {
+            $scope.rules = rules;
+        });
+        $scope.currentBeacon = beacon;
+    }
+
+    $scope.deleteRule = function(rule) {
+        rule.$delete({id: rule.rule_id});
+        var rules = RulesResource.query(function() {
+            $scope.rules = rules;
+        });
+    }
+
+    $scope.saveRule = function(rule) {
+        delete  rule.editable;
+        rule.$update({id: rule.rule_id}, rule, function(data) {console.log(data)});
+    }
+
+    $scope.addRule = function() {
+        var r = new RulesResource();
+        r.editable = true;
+        r.new = true;
+        $scope.rules.push(r)
+
+    }
+
+    $scope.newRule = function(rule) {
+        delete  rule.editable;
+        delete  rule.new;
+        rule.beacon_id = $scope.currentBeacon.beacon_id;
+        console.log("SAVING RULE");
+        rule.user_id = 1;
+        rule.$save(rule);
     }
 }]);

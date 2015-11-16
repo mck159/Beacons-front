@@ -1,4 +1,5 @@
-beaconsAdminApp.controller('ContentsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', function ContentsCtrl($scope, $resource, $state, serverUri, $http) {
+beaconsAdminApp.controller('ContentsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'Page', function ContentsCtrl($scope, $resource, $state, serverUri, $http, Page) {
+    Page.setTitle("Contents");
     var ContentsResource = $resource("http://localhost:3000/" + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var contents = ContentsResource.query(function() {
         $scope.contents = contents;

@@ -12,7 +12,8 @@ beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $h
         .state('beacons', {
             url: '/beacons',
             templateUrl: "views/beacons.html",
-            controller: 'BeaconsCtrl'
+            controller: 'BeaconsCtrl',
+
         })
         .state('contents', {
             url: '/contents',
@@ -21,3 +22,11 @@ beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $h
         });
     });
 beaconsAdminApp.constant('serverUri', 'http://localhost:3000/')
+
+beaconsAdminApp.service('Page', function($rootScope){
+    return {
+        setTitle: function(title){
+            $rootScope.title = title;
+        }
+    }
+});

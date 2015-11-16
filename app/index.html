@@ -6,10 +6,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" ui-sref="main">Bikoniki - {{title}}</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li ui-sref-active="active"><a ui-sref="beacons">Beacons</a></li>
+                <li ui-sref-active="active"><a ui-sref="contents">Content</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div>
-    <h1>Beacons admin</h1>
-    <div ui-view="">
+    <br/><br/><br/><br/>
+    <div class="container">
+        <div class="row" ui-view="">
 
+        </div>
     </div>
 </div>
 

@@ -13,10 +13,46 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title">Beacon '{{currentBeacon.name}}' rules</h4>
             </div>
             <div class="modal-body">
-                <p>{{modalBeacon}}</p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Rule</td>
+                        <td>Content</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="rule in rules">
+                        <td>
+                            <input class="form-control" type="text" ng-model="rule.name" ng-readonly="!rule.editable">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" ng-model="rule.description" ng-readonly="!rule.editable">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" ng-model="rule.rule" ng-readonly="!rule.editable">
+                        </td>
+                        <td>
+                            <select name="singleSelect" ng-model="rule.content_id">
+                                <option value="{{content.content_id}}" ng-repeat="content in contents">{{content.name}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" ng-show="!rule.new" ng-disabled="rule.editable" ng-click="rule.editable=!rule.editable">edit</button>
+                            <button class="btn btn-primary" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable; saveRule(rule)">submit</button>
+                            <button class="btn btn-warning" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable">cancel</button>
+                            <button class="btn btn-danger"  ng-show="!rule.editable && !rule.new" ng-click="deleteRule(rule)">delete</button>
+                            <button class="btn btn-danger"  ng-show="rule.new" ng-click="newRule(rule)">save</button>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary" ng-click="addRule()">Add rule</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -53,12 +89,14 @@
                     <input class="form-control" type="text" ng-model="beacon.minor_id" ng-readonly="!beacon.editable">
                 </td>
                 <td>
-                    <button class="btn btn-warning" ng-show="!beacon.new" ng-disabled="beacon.editable" ng-click="beacon.editable=!beacon.editable">edit</button>
-                    <button class="btn btn-primary" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; saveBeacon(beacon)">submit</button>
-                    <button class="btn btn-warning" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable">cancel</button>
-                    <button class="btn btn-danger"  ng-show="!beacon.editable && !beacon.new" ng-click="deleteBeacon(beacon)">delete</button>
-                    <button class="btn btn-danger"  ng-show="beacon.new" ng-click="newBeacon(beacon)">save</button>
-                    <!--<button type="button" class="btn btn-danger"  ng-click="setModal(beacon)" data-toggle="modal" data-target="#contentModal">Open Modal</button>-->
+                    <div class="btn-group" style="display: flex">
+                        <button class="btn btn-warning" ng-show="!beacon.new" ng-disabled="beacon.editable" ng-click="beacon.editable=!beacon.editable">edit</button>
+                        <button class="btn btn-primary" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; saveBeacon(beacon)">submit</button>
+                        <button class="btn btn-warning" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable">cancel</button>
+                        <button class="btn btn-danger"  ng-show="!beacon.editable && !beacon.new" ng-click="deleteBeacon(beacon)">delete</button>
+                        <button class="btn btn-danger"  ng-show="beacon.new" ng-click="newBeacon(beacon)">save</button>
+                        <button type="button" class="btn btn-default"  ng-click="setModal(beacon)" data-toggle="modal" data-target="#rulesModal">Rules</button>
+                    </div>
                 </td>
 
             </tr>
