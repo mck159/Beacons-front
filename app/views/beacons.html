@@ -45,13 +45,13 @@
                             </td>
                             <td>
                                 <input type="text" class="form-control" uib-datepicker-popup=""
-                                       ng-model="rule.rule.date_from" is-open="dateFromOpened"
-                                       ng-required="true" close-text="Close" ng-click="dateFromOpen()"/>
+                                       ng-model="rule.rule.date_from" is-open="dateFromOpened[rule]"
+                                       ng-required="true" close-text="Close" ng-click="dateFromOpen(rule)"/>
                             </td>
                             <td>
                                 <input type="text" class="form-control" uib-datepicker-popup=""
-                                       ng-model="rule.rule.date_to" is-open="dateToOpened"
-                                       ng-required="true" close-text="Close" ng-click="dateToOpen()"/>
+                                       ng-model="rule.rule.date_to" is-open="dateToOpened[rule]"
+                                       ng-required="true" close-text="Close" ng-click="dateToOpen(rule)"/>
                             </td>
                             <td>
                                 <button class="btn btn-warning" ng-show="!rule.new" ng-disabled="rule.editable" ng-click="rule.editable=!rule.editable">edit</button>

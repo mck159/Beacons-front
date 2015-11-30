@@ -90,8 +90,8 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         RulesService.newRule(rule, $scope.ruleDaysOfWeek);
     }
 
-    $scope.dateToOpen = function() {
-        $scope.dateToOpened = !$scope.dateToOpened;
+    $scope.dateToOpen = function(rule) {
+        $scope.dateToOpened[rule] = !$scope.dateToOpened[rule];
     }
 
     $scope.dateFromOpen = function() {
