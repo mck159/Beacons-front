@@ -1,4 +1,4 @@
-beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, Page) {
+beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'RulesService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, RulesService, Page) {
     Page.setTitle("Beacons");
     var BeaconResource = $resource("http://localhost:3000/api/" + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var RulesResource = $resource("http://localhost:3000/api/" + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
@@ -10,18 +10,24 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         $scope.contents = contents;
     });
 
+    $scope.ruleDaysOfWeek = {}
 
 
-    $scope.deleteBeacon = function(beacon) {
-        beacon.$delete({id: beacon.beacon_id});
+    $scope.refreshBeacons = function() {
         var beacons = BeaconResource.query(function() {
             $scope.beacons = beacons;
         });
     }
 
+    $scope.deleteBeacon = function(beacon) {
+        beacon.$delete({id: beacon.beacon_id});
+        $scope.refreshBeacons();
+    }
+
     $scope.saveBeacon = function(beacon) {
         delete  beacon.editable;
         beacon.$update({id: beacon.beacon_id}, beacon, function(data) {console.log(data)});
+        $scope.refreshBeacons();
     }
 
     $scope.addBeacon = function() {
@@ -29,7 +35,6 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         b.editable = true;
         b.new = true;
         $scope.beacons.push(b)
-
     }
 
     $scope.newBeacon = function(beacon) {
@@ -38,14 +43,24 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         console.log("SAVING BEACON");
         beacon.user_id = 1;
         beacon.$save(beacon);
+        $scope.refreshBeacons();
+    }
+
+    $scope.setDates = function(dayOfWeek) {
+        $scope.ruleDaysOfWeek[dayOfWeek] = {};
+        $scope.ruleDaysOfWeek[dayOfWeek].from = new Date();
+        $scope.ruleDaysOfWeek[dayOfWeek].to = new Date();
     }
 
     $scope.setModal = function(beacon) {
+        $scope.rules = RulesService.getRules();
         var rules = RulesResource.query(function() {
             $scope.rules = rules;
         });
         $scope.currentBeacon = beacon;
     }
+
+
 
     $scope.deleteRule = function(rule) {
         rule.$delete({id: rule.rule_id});
@@ -64,15 +79,24 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         r.editable = true;
         r.new = true;
         $scope.rules.push(r)
+        $scope.addRuleMode = true;
 
     }
 
     $scope.newRule = function(rule) {
-        delete  rule.editable;
-        delete  rule.new;
+        console.log(rule);
+        console.log($scope.ruleDaysOfWeek);
         rule.beacon_id = $scope.currentBeacon.beacon_id;
-        console.log("SAVING RULE");
-        rule.user_id = 1;
-        rule.$save(rule);
+        RulesService.newRule(rule, $scope.ruleDaysOfWeek);
     }
+
+    $scope.dateToOpen = function() {
+        $scope.dateToOpened = !$scope.dateToOpened;
+    }
+
+    $scope.dateFromOpen = function() {
+        $scope.dateFromOpened = !$scope.dateFromOpened;
+    }
+
+    $scope.daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 }]);

@@ -1,0 +1,14 @@
+.modal.in .modal-dialog {
+    width: 90%; /* desired relative width */
+    left: 5%; /* (100%-width)/2 */
+    /* place center */
+    margin-left:auto;
+    margin-right:auto;
+}
+.timepickers table {
+    display: inline-table;
+    margin-left: 2.5em;
+}
+.timepickers .checkbox {
+    display: inline;
+}

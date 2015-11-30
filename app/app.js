@@ -1,4 +1,4 @@
-var beaconsAdminApp = angular.module('beaconsAdminApp', ['ui.router', 'ngResource', 'ngCookies']);
+var beaconsAdminApp = angular.module('beaconsAdminApp', ['ui.router', 'ngResource', 'ngCookies', 'ui.bootstrap']);
 
 
 
