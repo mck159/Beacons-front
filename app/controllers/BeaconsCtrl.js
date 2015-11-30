@@ -1,11 +1,11 @@
 beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, Page) {
     Page.setTitle("Beacons");
-    var BeaconResource = $resource("http://localhost:3000/" + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
-    var RulesResource = $resource("http://localhost:3000/" + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var BeaconResource = $resource("http://localhost:3000/api/" + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var RulesResource = $resource("http://localhost:3000/api/" + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var beacons = BeaconResource.query(function() {
         $scope.beacons = beacons;
     });
-    var ContentsResource = $resource("http://localhost:3000/" + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var ContentsResource = $resource("http://localhost:3000/api/" + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var contents = ContentsResource.query(function() {
         $scope.contents = contents;
     });
