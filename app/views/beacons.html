@@ -15,7 +15,7 @@
                 <h4 class="modal-title">Beacon '{{currentBeacon.name}}' rules</h4>
             </div>
             <div class="modal-body container">
-                <div class="row">
+                <td class="row">
                     <table class="table">
                         <thead>
                         <tr>
@@ -23,12 +23,12 @@
                             <td>Description</td>
                             <td>Rule</td>
                             <td>Content</td>
-                            <td>Date to</td>
                             <td>Date from</td>
+                            <td>Date to</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="rule in rules">
+                        <tr ng-repeat-start="rule in rules">
                             <td>
                                 <input class="form-control" type="text" ng-model="rule.name" ng-readonly="!rule.editable">
                             </td>
@@ -45,38 +45,51 @@
                             </td>
                             <td>
                                 <input type="text" class="form-control" uib-datepicker-popup=""
-                                       ng-model="rule.rule.date_from" is-open="dateFromOpened[rule]"
-                                       ng-required="true" close-text="Close" ng-click="dateFromOpen(rule)"/>
+                                       max-date="rule.rule.date_to"
+                                       ng-model="rule.rule.date_from" is-open="dateFromOpened[$index]"
+                                       ng-required="true" close-text="Close" ng-click="dateFromOpen($index)"/>
                             </td>
                             <td>
                                 <input type="text" class="form-control" uib-datepicker-popup=""
-                                       ng-model="rule.rule.date_to" is-open="dateToOpened[rule]"
-                                       ng-required="true" close-text="Close" ng-click="dateToOpen(rule)"/>
+                                       ng-model="rule.rule.date_to" is-open="dateToOpened[$index]"
+                                       min-date="rule.rule.date_from"
+                                       ng-required="true" close-text="Close" ng-click="dateToOpen($index)"/>
                             </td>
                             <td>
-                                <button class="btn btn-warning" ng-show="!rule.new" ng-disabled="rule.editable" ng-click="rule.editable=!rule.editable">edit</button>
-                                <button class="btn btn-primary" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable; saveRule(rule)">submit</button>
-                                <button class="btn btn-warning" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable">cancel</button>
+                                <!--<button class="btn btn-warning" ng-show="!rule.new" ng-disabled="rule.editable" ng-click="editRule(rule)">edit</button>-->
+                                <!--<button class="btn btn-primary" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable; saveRule(rule)">submit</button>-->
+                                <!--<button class="btn btn-warning" ng-show="rule.editable && !rule.new" ng-click="cancelEditRule(rule)">cancel</button>-->
                                 <button class="btn btn-danger"  ng-show="!rule.editable && !rule.new" ng-click="deleteRule(rule)">delete</button>
                                 <button class="btn btn-danger"  ng-show="rule.new" ng-click="newRule(rule)">save</button>
                             </td>
                         </tr>
+                        <tr ng-repeat-end="">
+                            <td>
+                                <ul>
+                                    <li ng-repeat="day in rule.rule.days">{{day.day_of_week}} {{day.hour_from}} - {{day.hour_to}}</li>
+                                </ul>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="row" ng-if="addRuleMode">
-                    <ul class="list-group col-sm-4 timepickers">
-                        <li ng-repeat="dayOfWeek in daysOfWeek" class="list-group-item">
-                            <div class="checkbox" style="display: inline-block">
-                                <label><input type="checkbox" value="" ng-model="ruleDaysOfWeek[dayOfWeek].enabled" ng-click="setDates(rule, dayOfWeek)">{{dayOfWeek}}</label>
-                            </div>
-                            <uib-timepicker ng-model="ruleDaysOfWeek[dayOfWeek].from"ng-show="ruleDaysOfWeek[dayOfWeek].enabled" show-spinners="false"  show-meridian="ismeridian"></uib-timepicker>
-                            <uib-timepicker ng-model="ruleDaysOfWeek[dayOfWeek].to" ng-show="ruleDaysOfWeek[dayOfWeek].enabled" show-spinners="false" show-meridian="ismeridian"></uib-timepicker>
-                        </li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <button ng-hide="addRuleMode" type="button" class="btn btn-primary" ng-click="addRule(rule)">Add rule</button>
+                    <div class="row" ng-if="addRuleMode || editRuleMode">
+                        <ul class="list-group col-sm-4 timepickers">
+                            <li ng-repeat="dayOfWeek in daysOfWeek" class="list-group-item">
+                                <div class="checkbox" style="display: inline-block">
+                                    <label><input type="checkbox" value="" ng-model="ruleDaysOfWeek[dayOfWeek].enabled" ng-click="setDates(rule, dayOfWeek)">{{dayOfWeek}}</label>
+                                </div>
+                                <uib-timepicker
+                                        max="ruleDaysOfWeek[dayOfWeek].to"
+                                        ng-model="ruleDaysOfWeek[dayOfWeek].from"ng-show="ruleDaysOfWeek[dayOfWeek].enabled" show-spinners="false"  show-meridian="ismeridian"></uib-timepicker>
+                                <uib-timepicker
+                                        min="ruleDaysOfWeek[dayOfWeek].from"
+                                        ng-model="ruleDaysOfWeek[dayOfWeek].to" ng-show="ruleDaysOfWeek[dayOfWeek].enabled" show-spinners="false" show-meridian="ismeridian"></uib-timepicker>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <button ng-hide="addRuleMode" type="button" class="btn btn-primary" ng-click="addRule(rule)">Add rule</button>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -86,6 +99,7 @@
 
     </div>
 </div>
+<div ng-submit="submitRuleForm()">
     <table class="table">
         <thead>
         <tr>
@@ -127,6 +141,7 @@
             </tr>
         </tbody>
     </table>
+</div>
     <button type="button" class="btn btn-primary" ng-click="addBeacon()">Add beacon</button>
 
 </body>

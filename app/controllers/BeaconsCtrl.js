@@ -1,16 +1,20 @@
 beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'RulesService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, RulesService, Page) {
     Page.setTitle("Beacons");
-    var BeaconResource = $resource("http://localhost:3000/api/" + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
-    var RulesResource = $resource("http://localhost:3000/api/" + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var BeaconResource = $resource(serverUri + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var RulesResource = $resource(serverUri + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var beacons = BeaconResource.query(function() {
         $scope.beacons = beacons;
     });
-    var ContentsResource = $resource("http://localhost:3000/api/" + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
+    var ContentsResource = $resource(serverUri + 'content/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var contents = ContentsResource.query(function() {
         $scope.contents = contents;
     });
 
     $scope.ruleDaysOfWeek = {}
+    $scope.dateFromOpened = {}
+    $scope.dateToOpened = {}
+    $scope.addRuleMode = false;
+    $scope.editRuleMode = false;
 
 
     $scope.refreshBeacons = function() {
@@ -20,14 +24,27 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     }
 
     $scope.deleteBeacon = function(beacon) {
-        beacon.$delete({id: beacon.beacon_id});
-        $scope.refreshBeacons();
+        beacon.$delete({id: beacon.beacon_id}).then(
+            function() {
+                $scope.refreshBeacons();
+            },
+            function() {
+                alert('invalid data');
+            }
+        );
+
     }
 
     $scope.saveBeacon = function(beacon) {
         delete  beacon.editable;
-        beacon.$update({id: beacon.beacon_id}, beacon, function(data) {console.log(data)});
-        $scope.refreshBeacons();
+        beacon.$update({id: beacon.beacon_id}, beacon, function(data) {console.log(data)}).$promise.then(
+            function() {
+                $scope.refreshBeacons();
+            },
+            function() {
+                alert('invalid data');
+            }
+        );
     }
 
     $scope.addBeacon = function() {
@@ -41,9 +58,14 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         delete  beacon.editable;
         delete  beacon.new;
         console.log("SAVING BEACON");
-        beacon.user_id = 1;
-        beacon.$save(beacon);
-        $scope.refreshBeacons();
+        beacon.$save(beacon).then(
+            function() {
+                $scope.refreshBeacons();
+            },
+            function() {
+                alert('invalid data');
+            }
+        );
     }
 
     $scope.setDates = function(dayOfWeek) {
@@ -55,27 +77,38 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     $scope.setModal = function(beacon) {
         $scope.rules = RulesService.getRules();
         var rules = RulesResource.query(function() {
-            $scope.rules = rules;
+            $scope.rules = RulesService.transformAllFromJsonRules(rules);
         });
         $scope.currentBeacon = beacon;
+        $scope.addRuleMode = false;
     }
 
 
 
     $scope.deleteRule = function(rule) {
-        rule.$delete({id: rule.rule_id});
-        var rules = RulesResource.query(function() {
-            $scope.rules = rules;
-        });
+        rule.$delete({id: rule.rule_id}).then(
+            function() {
+                $scope.setModal($scope.currentBeacon);
+            },
+            function() {}
+        );
     }
 
-    $scope.saveRule = function(rule) {
-        delete  rule.editable;
-        rule.$update({id: rule.rule_id}, rule, function(data) {console.log(data)});
+    $scope.submitRuleForm = function() {
+        alert('a');
     }
+
+    //$scope.saveRule = function(rule) {
+    //    delete  rule.editable;
+    //    rule.$update({id: rule.rule_id}, rule, function(data) {console.log(data)});
+    //    $scope.addRuleMode = false;
+    //}
 
     $scope.addRule = function() {
         var r = new RulesResource();
+        r.rule = {}
+        r.rule.date_to = new Date();
+        r.rule.date_from = new Date();
         r.editable = true;
         r.new = true;
         $scope.rules.push(r)
@@ -84,18 +117,33 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     }
 
     $scope.newRule = function(rule) {
-        console.log(rule);
-        console.log($scope.ruleDaysOfWeek);
         rule.beacon_id = $scope.currentBeacon.beacon_id;
-        RulesService.newRule(rule, $scope.ruleDaysOfWeek);
+        RulesService.newRule(rule, $scope.ruleDaysOfWeek).then(
+            function(data) {
+
+            }, function(error) {
+                rule.editable = true;
+                rule.new = true;
+                alert('Invalid data provided');
+            }
+        );
+    }
+
+    $scope.editRule = function(rule) {
+        rule.editable = true;
+        $scope.editRuleMode = true;
+    }
+    $scope.cancelEditRule = function(rule) {
+        rule.editable = false;
+        $scope.editRuleMode = false;
     }
 
     $scope.dateToOpen = function(rule) {
         $scope.dateToOpened[rule] = !$scope.dateToOpened[rule];
     }
 
-    $scope.dateFromOpen = function() {
-        $scope.dateFromOpened = !$scope.dateFromOpened;
+    $scope.dateFromOpen = function(rule) {
+        $scope.dateFromOpened[rule] = !$scope.dateFromOpened[rule];
     }
 
     $scope.daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
