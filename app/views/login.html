@@ -12,15 +12,19 @@
                     <div class="panel-body">
                         <div class="col-md-10 col-md-offset-1">
                             <br /><br />
+                            <div class="alert alert-danger" ng-if="redirect">
+                                You must authorize!
+                            </div>
+                            <div class="alert alert-info" ng-if="registerRedirect">
+                                Successful registration!
+                            </div>
                             <div class="alert alert-warning" ng-if="userBadPassword">
                                 Wrong password
                             </div>
                             <div class="alert alert-danger" ng-if="userNotExist">
                                 User does not exists!
                             </div>
-                            <div class="alert alert-danger" ng-if="redirect">
-                                You must authorize!
-                            </div>
+
                             <div class="alert alert-danger" ng-if="userUnknownProblem">
                                 Critical error!
                             </div>
@@ -30,7 +34,7 @@
                                 <br />
                                 <button class="btn btn-block btn-lg btn-primary" type="button" ng-click="login()">Sign in</button>
                             </form>
-                            <a href="#" class="text-center">Create an account </a>
+                            <a href="#" class="text-center" ui-sref="register">Create an account </a>
                             <br />
                         </div>
                     </div>

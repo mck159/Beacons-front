@@ -1,6 +1,8 @@
 beaconsAdminApp.controller('LoginCtrl', ['$scope', 'LoginService', '$state', function LoginCtrl($scope, LoginService, $state) {
     console.log('loginctrl');
     $scope.redirect = false;
+    console.log($state.params);
+    $scope.registerRedirect = $state.params.registerRedirect;
     if(window.location.href.indexOf("redirect") != -1) {
         $scope.redirect = true;
     }

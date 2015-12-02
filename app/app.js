@@ -34,8 +34,13 @@ beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $h
             templateUrl: "views/contents.html",
             controller: 'ContentsCtrl'
         })
+        .state('register', {
+            url: '/register',
+            templateUrl: "views/register.html",
+            controller: 'RegisterCtrl'
+        })
         .state('login', {
-            url: '/login',
+            url: '/login?registerRedirect',
             templateUrl: "views/login.html",
             controller: 'LoginCtrl'
         })
