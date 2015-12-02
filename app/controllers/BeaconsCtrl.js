@@ -51,7 +51,7 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         var b = new BeaconResource();
         b.editable = true;
         b.new = true;
-        $scope.beacons.p.htmush(b)
+        $scope.beacons.push(b)
     }
 
     $scope.newBeacon = function(beacon) {
