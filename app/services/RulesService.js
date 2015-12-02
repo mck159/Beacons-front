@@ -28,7 +28,7 @@ beaconsAdminApp.service('RulesService', ['$resource', '$http', 'serverUri', '$co
 
         for(i = 0 ; i < rules.length ; i++) {
             var rule = rules[i];
-            rule.rule = JSON.parse(rule.rule);
+            //rule.rule = JSON.parse(rule.rule);
             rule.rule.date_from = new Date(rule.rule.date_from);
             rule.rule.date_to = new Date(rule.rule.date_to);
             var days = rule.rule.days;
