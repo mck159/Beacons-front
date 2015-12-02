@@ -130,6 +130,10 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         );
     }
 
+    $scope.cancelEdit = function() {
+        $scope.refreshBeacons();
+    }
+
     $scope.editRule = function(rule) {
         rule.editable = true;
         $scope.editRuleMode = true;
