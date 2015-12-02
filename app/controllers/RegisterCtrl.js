@@ -3,6 +3,7 @@ beaconsAdminApp.controller('RegisterCtrl', ['$scope', '$state', '$http', 'server
     $scope.register = function() {
         if($scope.user.pass != $scope.passConfirm) {
             $scope.passNoMatch = true;
+            return;gi
         } else {
             $scope.passNoMatch = false;
         }
