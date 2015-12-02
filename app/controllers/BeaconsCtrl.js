@@ -120,7 +120,8 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
         rule.beacon_id = $scope.currentBeacon.beacon_id;
         RulesService.newRule(rule, $scope.ruleDaysOfWeek).then(
             function(data) {
-
+                $scope.addRuleMode = false;
+                $scope.editRuleMode = false;
             }, function(error) {
                 rule.editable = true;
                 rule.new = true;

@@ -1,4 +1,6 @@
 logs/*
+app/js/*
+app/bower_components/*
 !.gitkeep
 tmp
 .DS_Store

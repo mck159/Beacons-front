@@ -2,7 +2,8 @@
   "name": "app",
   "main": "app.js",
   "authors": [
-    "Maciej Sroka <mck159@gmail.com>"
+    "Maciej Sroka",
+    "Michał Mańkowski"
   ],
   "description": "",
   "moduleType": [],
