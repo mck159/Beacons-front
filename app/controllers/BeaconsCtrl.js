@@ -75,10 +75,15 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     }
 
     $scope.setModal = function(beacon) {
-        $scope.rules = RulesService.getRules();
-        var rules = RulesResource.query(function() {
-            $scope.rules = RulesService.transformAllFromJsonRules(rules);
-        });
+        RulesResource.query({beacon_id: beacon.beacon_id}).$promise.then(
+            function(rules) {
+                console.log(rules);
+                $scope.rules = RulesService.transformAllFromJsonRules(rules);
+            },
+            function(error) {
+                alert('error');
+            }
+        );
         $scope.currentBeacon = beacon;
         $scope.addRuleMode = false;
     }
