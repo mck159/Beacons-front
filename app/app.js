@@ -23,11 +23,6 @@ beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $h
     //$httpProvider.interceptors.push('AuthInterceptor')
     $urlRouterProvider.otherwise('/beacons');
     $stateProvider
-        .state('main', {
-            url: '/',
-            templateUrl: "views/main.html",
-            controller: 'MainCtrl'
-        })
         .state('beacons', {
             url: '/beacons',
             templateUrl: "views/beacons.html",
@@ -43,6 +38,10 @@ beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $h
             url: '/login',
             templateUrl: "views/login.html",
             controller: 'LoginCtrl'
+        })
+        .state('logout', {
+            url: '/logout',
+            controller: 'LogoutCtrl'
         });
     });
 beaconsAdminApp.constant('serverUri', 'http://localhost:3000/api/')
