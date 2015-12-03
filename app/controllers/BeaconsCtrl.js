@@ -1,4 +1,7 @@
 beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'serverUri', '$http', 'BeaconsService', 'RulesService', 'Page', function BeaconsCtrl($scope, $resource, $state, serverUri, $http, BeaconsService, RulesService, Page) {
+    var d = new Date();
+    d.setDate(d.getDate()-7);
+    $scope.initDateFrom = new Date(d);
     Page.setTitle("Beacons");
     var BeaconResource = $resource(serverUri + 'beacon/:id',{id: "@_id"}, {update: {method : 'PUT'}});
     var RulesResource = $resource(serverUri + 'rule/:id',{id: "@_id"}, {update: {method : 'PUT'}});
@@ -112,8 +115,11 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     $scope.addRule = function() {
         var r = new RulesResource();
         r.rule = {}
+        var now = new Date();
+        var d = new Date(now.getFullYear(), now.getMonth()+1, 1);
+        d.setDate(d.getDate() + 30);
         r.rule.date_to = new Date();
-        r.rule.date_from = new Date();
+        r.rule.date_from = Date.today().addMonths(1);
         r.editable = true;
         r.new = true;
         $scope.rules.push(r)

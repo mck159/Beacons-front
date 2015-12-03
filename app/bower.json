@@ -25,7 +25,8 @@
     "angular-smart-table": "~2.1.5",
     "angular-cookies": "~1.4.8",
     "angular-bootstrap": "~0.14.3",
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "DateJS": "datejs#~1.0.0-rc3"
   },
   "resolutions": {
     "angular": "1.4.x"
