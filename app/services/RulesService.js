@@ -12,8 +12,8 @@ beaconsAdminApp.service('RulesService', ['$resource', '$http', 'serverUri', '$co
             var value = daysOfWeek[key];
             jsonDaysOfWeek.push({
                 'day_of_week' : key,
-                'hour_from' : moment(value.from).format('hh:mm'),
-                'hour_to' : moment(value.to).format('hh:mm')
+                'hour_from' : moment(value.from).format('HH:mm'),
+                'hour_to' : moment(value.to).format('HH:mm')
             })
         }
         rule.rule.date_from = moment(rule.rule.date_from).format('YYYY-MM-DD');

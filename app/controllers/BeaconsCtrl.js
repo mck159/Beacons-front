@@ -113,6 +113,7 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     //}
 
     $scope.addRule = function() {
+        $scope.setDaysOfWeekDates();
         var r = new RulesResource();
         r.rule = {}
         var now = new Date();
@@ -163,4 +164,14 @@ beaconsAdminApp.controller('BeaconsCtrl', ['$scope', '$resource', '$state', 'ser
     }
 
     $scope.daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+    $scope.setDaysOfWeekDates = function() {
+        $scope.ruleDaysOfWeek = {};
+        for(i = 0 ; i < $scope.daysOfWeek.length ; i++) {
+            $scope.ruleDaysOfWeek[$scope.daysOfWeek[i]] = {}
+            console.log(Date.today().at({hour: 18, minute: 0}));
+            $scope.ruleDaysOfWeek[$scope.daysOfWeek[i]].to = Date.today().at({hour: 18, minute: 0});
+            $scope.ruleDaysOfWeek[$scope.daysOfWeek[i]].from = Date.today().at({hour: 8, minute: 0});
+        }
+    }
 }]);
