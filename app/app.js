@@ -2,10 +2,11 @@ var beaconsAdminApp = angular.module('beaconsAdminApp', ['ui.router', 'ngResourc
 
 
 
-beaconsAdminApp.factory('unauthInterceptor', function ($q) {
+beaconsAdminApp.factory('unauthInterceptor', function ($q, $cookies) {
     return {
         responseError: function (response) {
             if(response.status == 401) {
+                $cookies.remove('username');
                 var url = window.location.href;
                 window.location.href = url.substring(0, url.indexOf("#") + 2) + "login?redirect=true";
             }
@@ -19,7 +20,7 @@ beaconsAdminApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push('unauthInterceptor');
 });
 
-beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider) {
+beaconsAdminApp.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $rootScopeProvider) {
     //$httpProvider.interceptors.push('AuthInterceptor')
     $urlRouterProvider.otherwise('/beacons');
     $stateProvider
@@ -58,3 +59,9 @@ beaconsAdminApp.service('Page', function($rootScope){
         }
     }
 });
+
+    beaconsAdminApp.run(['$location', '$rootScope', '$cookies', function($location, $rootScope, $cookies) {
+        $rootScope.$on('$stateChangeSuccess', function (event, current, previous) {
+            $rootScope.username = $cookies.get('username')
+        });
+    }]);

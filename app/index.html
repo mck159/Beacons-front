@@ -27,7 +27,9 @@
                 <li ui-sref-active="active"><a ui-sref="contents">Content</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="logout">Logout</a></li>
+                <li><a ng-if="$root.username"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{$root.username}}</a></li>
+
+                <li><a ui-sref="logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -65,6 +67,7 @@
 <script src="services/LoginService.js"></script>
 <script src="services/RulesService.js"></script>
 <script src="services/RegisterService.js"></script>
+<script src="services/CredentialsService.js"></script>
 <!--<script src="services/ContentsService.js"></script>-->
 </body>
 </html>

@@ -1,4 +1,5 @@
-beaconsAdminApp.controller('LoginCtrl', ['$scope', 'LoginService', '$state', function LoginCtrl($scope, LoginService, $state) {
+beaconsAdminApp.controller('LoginCtrl', ['$scope', 'LoginService', 'CredentialsService', '$state', function LoginCtrl($scope, LoginService, CredentialsService, $state) {
+    CredentialsService.removeUsername();
     console.log('loginctrl');
     $scope.redirect = false;
     console.log($state.params);
@@ -10,6 +11,7 @@ beaconsAdminApp.controller('LoginCtrl', ['$scope', 'LoginService', '$state', fun
     $scope.login = function() {
         LoginService.login($scope.user, $scope.pass).then(
             function(data) {
+                CredentialsService.setUsername($scope.user);
                 $state.go('beacons');
             },
             function(error) {
