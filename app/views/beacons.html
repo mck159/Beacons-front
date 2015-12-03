@@ -12,7 +12,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Beacon '{{currentBeacon.name}}' rules</h4>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Beacon '{{currentBeacon.name}}' rules</h4>
             </div>
             <div class="modal-body container">
                 <td class="row">
@@ -55,8 +55,8 @@
                                 <!--<button class="btn btn-warning" ng-show="!rule.new" ng-disabled="rule.editable" ng-click="editRule(rule)">edit</button>-->
                                 <!--<button class="btn btn-primary" ng-show="rule.editable && !rule.new" ng-click="rule.editable=!rule.editable; saveRule(rule)">submit</button>-->
                                 <!--<button class="btn btn-warning" ng-show="rule.editable && !rule.new" ng-click="cancelEditRule(rule)">cancel</button>-->
-                                <button class="btn btn-danger"  ng-show="!rule.editable && !rule.new" ng-click="deleteRule(rule)">delete</button>
-                                <button class="btn btn-danger"  ng-show="rule.new" ng-click="newRule(rule)">save</button>
+                                <button class="btn btn-danger"  ng-show="!rule.editable && !rule.new" ng-click="deleteRule(rule)"><span class="glyphicon glyphicon-minus" aria-hidden="true"> Delete</button>
+                                <button class="btn btn-primary"  ng-show="rule.new" ng-click="newRule(rule)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
                             </td>
                         </tr>
                         <tr ng-repeat-end="">
@@ -84,7 +84,7 @@
                         </ul>
                     </div>
                     <div class="row">
-                        <button ng-hide="addRuleMode" type="button" class="btn btn-primary" ng-click="addRule(rule)">Add rule</button>
+                        <button ng-hide="addRuleMode" type="button" class="btn btn-primary" ng-click="addRule(rule)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add rule</button>
                     </div>
                 </div>
             </div>
@@ -125,12 +125,12 @@
                 </td>
                 <td>
                     <div class="btn-group" style="display: flex">
-                        <button class="btn btn-warning" ng-show="!beacon.new" ng-disabled="beacon.editable" ng-click="beacon.editable=!beacon.editable">edit</button>
-                        <button class="btn btn-primary" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; saveBeacon(beacon)">submit</button>
-                        <button class="btn btn-warning" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; cancelEdit()">cancel</button>
-                        <button class="btn btn-danger"  ng-show="!beacon.editable && !beacon.new" ng-click="deleteBeacon(beacon)">delete</button>
+                        <button class="btn btn-warning" ng-show="!beacon.new" ng-disabled="beacon.editable" ng-click="beacon.editable=!beacon.editable"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
+                        <button class="btn btn-primary" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; saveBeacon(beacon)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                        <button class="btn btn-warning" ng-show="beacon.editable && !beacon.new" ng-click="beacon.editable=!beacon.editable; cancelEdit()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                        <button class="btn btn-danger"  ng-show="!beacon.editable && !beacon.new" ng-click="deleteBeacon(beacon)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Delete</button>
                         <button class="btn btn-danger"  ng-show="beacon.new" ng-click="newBeacon(beacon)">save</button>
-                        <button type="button" class="btn btn-default"  ng-click="setModal(beacon)" data-toggle="modal" data-target="#rulesModal">Rules</button>
+                        <button type="button" class="btn btn-default"  ng-click="setModal(beacon)" data-toggle="modal" data-target="#rulesModal"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Rules</button>
                     </div>
                 </td>
 
@@ -138,7 +138,7 @@
         </tbody>
     </table>
 </div>
-    <button type="button" class="btn btn-primary" ng-click="addBeacon()">Add beacon</button>
+    <button type="button" class="btn btn-primary" ng-click="addBeacon()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add beacon</button>
 
 </body>
 </html>

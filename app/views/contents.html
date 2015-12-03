@@ -30,11 +30,11 @@
                 </td>
                 <td>
                     <div class="btn-group" style="display: flex">
-                        <button class="btn btn-warning" ng-show="!content.new" ng-disabled="content.editable" ng-click="content.editable=!content.editable">edit</button>
-                        <button class="btn btn-primary" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable; saveContent(content)">submit</button>
-                        <button class="btn btn-warning" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable;cancelEdit()">cancel</button>
-                        <button class="btn btn-danger"  ng-show="!content.editable && !content.new" ng-click="deleteContent(content)">delete</button>
-                        <button class="btn btn-danger"  ng-show="content.new" ng-click="newContent(content)">save</button>
+                        <button class="btn btn-warning" ng-show="!content.new" ng-disabled="content.editable" ng-click="content.editable=!content.editable"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
+                        <button class="btn btn-primary" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable; saveContent(content)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                        <button class="btn btn-warning" ng-show="content.editable && !content.new" ng-click="content.editable=!content.editable;cancelEdit()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                        <button class="btn btn-danger"  ng-show="!content.editable && !content.new" ng-click="deleteContent(content)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Delete</button>
+                        <button class="btn btn-danger"  ng-show="content.new" ng-click="newContent(content)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
                     </div>
                 </td>
 
@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-primary" ng-click="addContent()">Add content</button>
+    <button type="button" class="btn btn-primary" ng-click="addContent()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add content</button>
 
 </body>
 </html>
