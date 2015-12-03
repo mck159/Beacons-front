@@ -5,16 +5,23 @@ beaconsAdminApp.service('RulesService', ['$resource', '$http', 'serverUri', '$co
         var jsonDaysOfWeek = [];
         console.log(daysOfWeek);
         for(var key in daysOfWeek) {
+            console.log(daysOfWeek[key]);
             console.log(key);
             if(!daysOfWeek[key].enabled) {
                 continue;
             }
             var value = daysOfWeek[key];
-            jsonDaysOfWeek.push({
-                'day_of_week' : key,
-                'hour_from' : moment(value.from).format('HH:mm'),
-                'hour_to' : moment(value.to).format('HH:mm')
-            })
+            if(daysOfWeek[key].allDay) {
+                jsonDaysOfWeek.push({
+                    'day_of_week': key
+                })
+            } else {
+                jsonDaysOfWeek.push({
+                    'day_of_week': key,
+                    'hour_from': moment(value.from).format('HH:mm'),
+                    'hour_to': moment(value.to).format('HH:mm')
+                })
+            }
         }
         rule.rule.date_from = moment(rule.rule.date_from).format('YYYY-MM-DD');
         rule.rule.date_to = moment(rule.rule.date_to).format('YYYY-MM-DD');
